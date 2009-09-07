@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle;
 import java.awt.BorderLayout;
+import java.awt.Color;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -22,21 +24,14 @@ import javax.swing.JComponent;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Random;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
+@SuppressWarnings("serial")
 public class GameBoard extends JFrame {
 
-	private JPanel jContentPane = null;
+	private ImagePanel jContentPane = null;
 	private JPanel jTopPanel;
 	private JLabel jLeftLabel = null;
 	private JLabel jRightLabel = null;
@@ -205,8 +200,10 @@ public class GameBoard extends JFrame {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jRightLabel = new JLabel();
+			jRightLabel.setForeground(Color.white);
 			jRightLabel.setText("               ");
 			jLeftLabel = new JLabel();
+			jLeftLabel.setForeground(Color.white);
 			jLeftLabel.setText("               ");
 			jTopPanel = new JPanel();
 			GroupLayout jTopLabelLayout = new GroupLayout(
@@ -309,7 +306,12 @@ public class GameBoard extends JFrame {
 							.addContainerGap(67, 67));
 			jTopPanel
 					.setBorder(BorderFactory.createEmptyBorder(10, -1, 10, -1));
-			jContentPane = new JPanel();
+			try {
+				jContentPane = new ImagePanel(javax.imageio.ImageIO
+						.read(new java.io.File("c:\\2games buttons.jpg")),
+						ImagePanel.SCALED);
+			} catch (Exception e) {
+			}
 			jContentPane.setLayout(new BorderLayout());
 			jContentPane.add(jTopPanel, BorderLayout.NORTH);
 			jTopPanel.setPreferredSize(new java.awt.Dimension(573, 79));
@@ -605,8 +607,9 @@ public class GameBoard extends JFrame {
 
 	/**
 	 * @param args
+	 * @throws IOException
 	 */
-	public static void main(final String[] args) {
+	public static void main(final String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		new GameBoard().show();
 	}
@@ -635,6 +638,7 @@ public class GameBoard extends JFrame {
 	private JLabel getJTurnLabel() {
 		if (jTurnLabel == null) {
 			jTurnLabel = new JLabel();
+			jTurnLabel.setForeground(Color.RED);
 			jTurnLabel.setText("Turn: -");
 		}
 		return jTurnLabel;
