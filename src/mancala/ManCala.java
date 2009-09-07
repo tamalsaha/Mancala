@@ -1,7 +1,6 @@
 package mancala;
 
-import java.util.*;
-import java.io.*;
+import java.util.ArrayList;
 
 public class ManCala {
 
@@ -22,7 +21,7 @@ public class ManCala {
 	 * myMancala.move(myMancala.getBestNextMove(30)); myMancala.printBoard(); }
 	 * }
 	 */
-	
+
 	ArrayList<Integer> topBoard = new ArrayList<Integer>();
 	ArrayList<Integer> bottomBoard = new ArrayList<Integer>();
 	boolean turn;
@@ -47,65 +46,54 @@ public class ManCala {
 
 	}
 
-	public int getBestNextMove()
-	{
+	public int getBestNextMove() {
 		return getBestNextMove(10);
 	}
-	
-	public int getBestNextMove(int searchDepth)
-	{
+
+	public int getBestNextMove(int searchDepth) {
 		double bestValue = -1000;
 		double newValue = 0;
 		int bestMove = -1;
-		for (int i = 5; i >-1; --i) {
+		for (int i = 5; i > -1; --i) {
 			ManCala testMancala;
 
-			
 			if (turn) {
 				if (topBoard.get(i) == 0)
 					continue;
-				testMancala = ManCala.newGameWithMove(topBoard,
-						bottomBoard, i);
+				testMancala = ManCala.newGameWithMove(topBoard, bottomBoard, i);
 			} else {
 				if (bottomBoard.get(i) == 0)
 					continue;
-				testMancala = ManCala.newGameWithMove(
-						bottomBoard, topBoard, i);
+				testMancala = ManCala.newGameWithMove(bottomBoard, topBoard, i);
 			}
 
-			//testMancala.printBoard();
+			// testMancala.printBoard();
 			if (testMancala.turn) {
 				newValue = ManCala.findBestNextMove(testMancala.topBoard,
 						testMancala.bottomBoard, 50, bestValue, searchDepth);
 			} else {
-				newValue = -ManCala.findBestNextMove(
-						testMancala.bottomBoard, testMancala.topBoard, -bestValue,
-						-50, searchDepth);
+				newValue = -ManCala.findBestNextMove(testMancala.bottomBoard,
+						testMancala.topBoard, -bestValue, -50, searchDepth);
 			}
 
-			
 			System.out.println("NEW xxxMOVE " + i + " " + newValue);
 			if (newValue > bestValue) {
 
 				bestMove = i;
 				bestValue = newValue;
 			}
-			
-			
+
 		}
-		
+
 		System.out.println("best move " + bestMove + " " + bestValue);
-		
-		if(turn)
-		{
+
+		if (turn) {
 			return bestMove;
-		}
-		else
-		{
-			return bestMove+7;
+		} else {
+			return bestMove + 7;
 		}
 	}
-	
+
 	public static void printBoardPieces(ArrayList<Integer> topBoard,
 			ArrayList<Integer> bottomBoard) {
 		System.out.print("\n  ");
@@ -179,12 +167,12 @@ public class ManCala {
 	}
 
 	void finishGame(int topBonus, int bottomBonus) {
-		//printBoard();
+		// printBoard();
 		int topScore = topBoard.get(6) + topBonus;
 		int bottomScore = bottomBoard.get(6) + bottomBonus;
-		//System.out.println("Top score " + topScore);
+		// System.out.println("Top score " + topScore);
 		// finalTopCount = topScore;
-		//System.out.println("Bottom score " + bottomScore);
+		// System.out.println("Bottom score " + bottomScore);
 		// finalBottomCount = bottomScore;
 		topBoard.set(6, topScore);
 		bottomBoard.set(6, bottomScore);
@@ -193,10 +181,10 @@ public class ManCala {
 
 	boolean isFinished = false;
 
-	public boolean isGameFinished()
-	{
+	public boolean isGameFinished() {
 		return isFinished;
 	}
+
 	// int finalTopCount = 0;
 	// int finalBottomCount = 0;
 
@@ -248,10 +236,8 @@ public class ManCala {
 			turn = !turn;
 
 		}
-		
-		
 
-		return possiblyOver ||  move ==5;
+		return possiblyOver || move == 5;
 
 	}
 
@@ -289,17 +275,18 @@ public class ManCala {
 		// System.out.println("depthLeft " + depthLeft);
 		// ManCala.printBoardPieces(myBoard, otherBoard);
 		// stop recursion somewhere
-		if (depthLeft <= 0 || myBoard.get(6) + otherBoard.get(6) ==48) {
+		if (depthLeft <= 0 || myBoard.get(6) + otherBoard.get(6) == 48) {
 			// System.out.println("SDFCVC " + (myBoard.get(6)-otherBoard.get(6)
 			// ));
-			//if(myBoard.get(6) + otherBoard.get(6) ==48) System.out.println("finsihedsfs");
+			// if(myBoard.get(6) + otherBoard.get(6) ==48)
+			// System.out.println("finsihedsfs");
 			return myBoard.get(6) - otherBoard.get(6) + .4;
 		}
 
 		double best = bestGuaranteed;
 		double worst = worstGuaranteed;
 		double currentValue = -99999999;
-		for (int i = 5; i >-1; --i) {
+		for (int i = 5; i > -1; --i) {
 			if (myBoard.get(i) != 0) // ie valid move
 			{
 				ManCala nextBoard = newGameWithMove(myBoard, otherBoard, i);
@@ -314,7 +301,7 @@ public class ManCala {
 				}
 				// System.out.println("board value return " + boardValue);
 				if (best <= boardValue) {
-					 return boardValue;
+					return boardValue;
 				}
 				if (boardValue > worst) {
 					worst = boardValue;
@@ -324,12 +311,8 @@ public class ManCala {
 					// nextBoard.printBoard();
 					currentValue = boardValue;
 				}
-
 			}
-
 		}
-
 		return currentValue;
 	}
-
 }
