@@ -308,9 +308,10 @@ public class GameBoard extends JFrame {
 					.setBorder(BorderFactory.createEmptyBorder(10, -1, 10, -1));
 			try {
 				jContentPane = new ImagePanel(javax.imageio.ImageIO
-						.read(new java.io.File("c:\\2games buttons.jpg")),
+						.read(new java.io.File("2games buttons.jpg")),
 						ImagePanel.SCALED);
 			} catch (Exception e) {
+				jContentPane = new ImagePanel(null, ImagePanel.SCALED);
 			}
 			jContentPane.setLayout(new BorderLayout());
 			jContentPane.add(jTopPanel, BorderLayout.NORTH);
